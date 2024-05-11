@@ -20,11 +20,13 @@ import { shortcuts } from '@/constants';
 
 type Props = {
     canvasRef: React.MutableRefObject<HTMLCanvasElement | null>;
+    undo: ()=>void;
+    redo: ()=>void;
 }
 
-const Live = ({ canvasRef }: Props) => {
-    const others = useOthers();
-    const [{ cursor }, updateMyPresence] = useMyPresence() as any;
+const Live = ({ canvasRef, undo, redo }: Props) => {
+    // const others = useOthers();
+    const [{ cursor }, updateMyPresence] = useMyPresence();
 
     const [cursorState, setCursorState] = useState<CursorState>({
         mode: CursorMode.Hidden,
@@ -132,6 +134,33 @@ const Live = ({ canvasRef }: Props) => {
         setCursorState({ mode: CursorMode.Reaction, reaction, isPressed: false })
     }, [])
 
+    const handleContextMenuClick = useCallback((key: string)=>{
+        switch(key){
+            case 'Chat':
+                setCursorState({
+                    mode: CursorMode.Chat,
+                    previousMessage: null,
+                    message: '',
+                })
+                break;
+            case 'Reactions':
+                setCursorState({
+                    mode: CursorMode.ReactionSelector,
+                })
+                break;
+
+            case 'Undo':
+                undo();
+                break;
+
+            case 'Redo':
+                redo();
+                break;
+            default:
+                break;
+        }
+    },[])
+
     return (
 
         <ContextMenu>
@@ -182,17 +211,18 @@ const Live = ({ canvasRef }: Props) => {
                 />
             )}
 
-            <LiveCursors others={others} />
+            <LiveCursors />
 
             <Comments/>
         </ContextMenuTrigger>
         <ContextMenuContent className="right-menu-content">
-            {shortcuts.map((item)=>{
-                <ContextMenuItem key={item.key}>
-                    <p>{item.name}</p>
-                    <p className="text-xs text-primary-grey-300">{item.shortcut</p>
-                </ContextMenuItem>
-            })}
+        {shortcuts.map((item) => (
+    <ContextMenuItem key={item.key} onClick={() => handleContextMenuClick(item.name)} className="right-menu-item">
+        <p>{item.name}</p>
+        <p className="text-xs text-primary-grey-300">{item.shortcut}</p>
+    </ContextMenuItem>
+))}
+
         </ContextMenuContent>
         </ContextMenu>
     )

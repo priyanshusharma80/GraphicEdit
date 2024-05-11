@@ -119,11 +119,8 @@ export type ShapesMenuProps = {
   imageInputRef: any;
 };
 
-export type Presence = any;
+// export type Presence = any;
 
-export type LiveCursorProps = {
-  others: readonly User<Presence, BaseUserMeta>[];
-};
 
 export type CanvasMouseDown = {
   options: fabric.IEvent;
@@ -166,7 +163,6 @@ export type CanvasSelectionCreated = {
   options: fabric.IEvent;
   isEditingRef: React.MutableRefObject<boolean>;
   setElementAttributes: React.Dispatch<React.SetStateAction<Attributes>>;
-  isEditinggRef: React.MutableRefObject<boolean>;
 };
 
 export type CanvasObjectScaling = {
