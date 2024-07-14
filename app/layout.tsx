@@ -11,8 +11,8 @@ const workSans = Work_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Figma Clone",
-  description: "A minimalist Figma Clone using Fabric.js and liveblocks for real time collaboration",
+  title: "GraphicEdit | A Collaborative Designing Tool",
+  description: "A Real Time Design Collaboration tool using Next.Js, Fabric.js and liveblocks for real time collaboration",
 };
 
 export default function RootLayout({
